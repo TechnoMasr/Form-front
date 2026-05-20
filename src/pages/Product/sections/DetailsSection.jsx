@@ -14,6 +14,7 @@ import {
 import ProductControls from "./ProductControls";
 import { IoClose } from "react-icons/io5";
 import HeadSection from "./HeadSection";
+import { useCallback, useState } from "react";
 
 const DetailsSection = ({
   product,
@@ -33,6 +34,18 @@ const DetailsSection = ({
   activeIndex,
 }) => {
   const { t } = useTranslation();
+
+  const [showMore, setShowMore] = useState(false);
+
+  const descRef = useCallback(
+    (el) => {
+      if (!el) return;
+      const lineHeight = parseFloat(getComputedStyle(el).lineHeight);
+      const maxHeight = lineHeight * 5;
+      setShowMore(el.scrollHeight > maxHeight);
+    },
+    [activeItem],
+  );
 
   return (
     <section className="h-[calc(100vh-30px)] pt-26 pb-6 flex flex-col items-center justify-between">
@@ -69,13 +82,15 @@ const DetailsSection = ({
                   style={{ background: mainColor }}
                   className="w-10 h-0.5 absolute top-1/2 translate-y-1/2 inset-s-[100%]"
                 />
-                <div className="w-8 h-8 overflow-hidden">
-                  <img
-                    src={item.icon}
-                    alt={item.title}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+                {item.icon && (
+                  <div className="w-8 h-8 overflow-hidden">
+                    <img
+                      src={item.icon}
+                      alt={item.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
                 <div className="flex-1">
                   <h3 className="text-sm font-bold">{item.title}</h3>
                   <p className="text-xs">{item.description}</p>
@@ -108,61 +123,67 @@ const DetailsSection = ({
                   transition={{ duration: 0.4, ease: "easeOut" }}
                   className="absolute inset-0"
                 >
-                  <img
-                    src={activeItem.image}
-                    alt={activeItem.main_title}
-                    className="w-full h-full object-cover"
-                  />
+                  {activeItem.image && (
+                    <img
+                      src={activeItem.image}
+                      alt={activeItem.main_title}
+                      className="w-full h-full object-cover"
+                    />
+                  )}
 
                   <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white text-center p-4">
                     <h2 className="text-2xl mb-2">{activeItem.main_title}</h2>
 
                     <div
+                      ref={descRef}
                       className="text-sm rich_content line-clamp-5"
                       dangerouslySetInnerHTML={{
                         __html: activeItem.main_description,
                       }}
                     />
 
-                    <Sheet>
-                      <SheetTrigger className="cursor-pointer hover:underline mt-4">
-                        {t("productDetails.more")}
-                      </SheetTrigger>
-                      <SheetContent
-                        side={lang === "ar" ? "right" : "left"}
-                        className="border-0 py-10 gap-0 w-[90%]! max-w-[600px]! pe-20 md:pe-40 rounded-e-[50%]"
-                        showCloseButton={false}
-                        style={{
-                          background: product?.page_color || "var(--secondary)",
-                        }}
-                      >
-                        <SheetHeader>
-                          <SheetTitle
-                            className="text-2xl"
-                            style={{ color: mainColor }}
-                          >
-                            {activeItem.main_title}
-                          </SheetTitle>
-
-                          <SheetClose
-                            className="absolute top-4 inset-s-4 cursor-pointer"
-                            style={{ color: mainColor }}
-                          >
-                            <IoClose size={22} />
-                          </SheetClose>
-
-                          <SheetDescription />
-                        </SheetHeader>
-
-                        <div
-                          className="px-4 text-sm rich_content h-full overflow-y-auto no-scrollbar"
-                          style={{ color: mainColor }}
-                          dangerouslySetInnerHTML={{
-                            __html: activeItem.main_description,
+                    {showMore && (
+                      <Sheet>
+                        <SheetTrigger className="cursor-pointer hover:underline mt-4">
+                          {t("productDetails.more")}
+                        </SheetTrigger>
+                        <SheetContent
+                          side={lang === "ar" ? "right" : "left"}
+                          className="border-0 py-10 gap-0 w-[90%]! max-w-[600px]! pe-20 md:pe-40 rounded-e-[50%]"
+                          showCloseButton={false}
+                          style={{
+                            background:
+                              product?.page_color || "var(--secondary)",
                           }}
-                        />
-                      </SheetContent>
-                    </Sheet>
+                        >
+                          <SheetHeader>
+                            <SheetTitle
+                              className="text-2xl"
+                              style={{ color: mainColor }}
+                            >
+                              {activeItem.main_title}
+                            </SheetTitle>
+
+                            <SheetClose
+                              className="absolute top-4 inset-s-4 cursor-pointer"
+                              style={{ color: mainColor }}
+                            >
+                              <IoClose size={22} />
+                            </SheetClose>
+
+                            <SheetDescription />
+                          </SheetHeader>
+
+                          <div
+                            className="px-4 text-sm rich_content h-full overflow-y-auto no-scrollbar"
+                            style={{ color: mainColor }}
+                            dangerouslySetInnerHTML={{
+                              __html: activeItem.main_description,
+                            }}
+                          />
+                        </SheetContent>
+                      </Sheet>
+                    )}
                   </div>
                 </motion.div>
               ) : (
@@ -213,13 +234,15 @@ const DetailsSection = ({
                   style={{ background: mainColor }}
                   className="w-10 h-0.5 absolute top-1/2 translate-y-1/2 inset-e-[100%]"
                 />
-                <div className="w-8 h-8 overflow-hidden">
-                  <img
-                    src={item.icon}
-                    alt={item.title}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+                {item.icon && (
+                  <div className="w-8 h-8 overflow-hidden">
+                    <img
+                      src={item.icon}
+                      alt={item.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
                 <div className="flex-1">
                   <h3 className="text-sm font-bold">{item.title}</h3>
                   <p className="text-xs">{item.description}</p>
@@ -281,6 +304,7 @@ const DetailsSection = ({
         product={product}
         mainColor={mainColor}
         sale_type={sale_type}
+        showScrollBtn={false}
       />
     </section>
   );

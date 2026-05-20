@@ -17,7 +17,7 @@ const OurStory = ({ removeBtn = false }) => {
   if (!ourStory || !ourStory?.title) return null;
 
   return (
-    <section className="container sectionPadding">
+    <section className="container xl:max-w-300! sectionPadding">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="space-y-6 content-center">
           <p className="text-secondary text-lg font-semibold uppercase flex items-center gap-2">

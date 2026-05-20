@@ -5,7 +5,7 @@ const OurStorySkeleton = () => {
     <section className="container sectionPadding">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Left Content */}
-        <div className="space-y-6">
+        <div className="space-y-6 content-center">
           {/* Section Label */}
           <div className="flex items-center gap-2">
             <Skeleton className="h-0.5 w-12" />

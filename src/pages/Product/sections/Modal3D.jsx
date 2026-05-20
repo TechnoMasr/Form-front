@@ -28,7 +28,7 @@ const Modal3D = ({
         <div className="relative h-full aspect-square flex items-center justify-center">
           {/* 🔵 الدائرة */}
           <div
-            className="absolute w-[100%] lg:w-[120%] h-[88px] border-2 rounded-[50%] bottom-0 left-1/2 -translate-x-1/2"
+            className="absolute w-[100%] lg:w-[120%] h-[0px] border-2 rounded-[50%] bottom-0 left-1/2 -translate-x-1/2"
             style={{ borderColor: mainColor }}
           ></div>
 
@@ -79,6 +79,7 @@ const Modal3D = ({
         product={product}
         mainColor={mainColor}
         sale_type={sale_type}
+        showScrollBtn={false}
       />
     </section>
   );

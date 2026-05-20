@@ -13,7 +13,12 @@ import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import gsap from "gsap";
 gsap.registerPlugin(ScrollToPlugin);
 
-const ProductControls = ({ product, mainColor, sale_type }) => {
+const ProductControls = ({
+  product,
+  mainColor,
+  sale_type,
+  showScrollBtn = true,
+}) => {
   const [quantity, setQuantity] = useState(1);
   const [selectedSizeId, setSelectedSizeId] = useState(null);
 
@@ -90,31 +95,37 @@ const ProductControls = ({ product, mainColor, sale_type }) => {
   if (!product?.for_sale) return;
 
   return (
-    <div className="container flex flex-col md:flex-row justify-between gap-2 lg:gap-4 relative z-30">
-      <button
-        onClick={handleScrollClick}
-        className="min-w-38 bg-black text-white px-4 py-2 font-bold text-sm rounded cursor-pointer
-              flex items-center justify-center gap-1"
-      >
-        {isScrolled ? t("scrollUp") : t("scrollDown")}
-        <MdKeyboardDoubleArrowDown
-          className={`size-6 animate-bounce ${isScrolled ? "rotate-180 -translate-y-1" : "translate-y-1"}`}
-        />
-      </button>
+    <div className="container grid grid-cols-1 lg:grid-cols-3 gap-2 lg:gap-4 relative z-30">
+      <div>
+        {showScrollBtn && (
+          <button
+            onClick={handleScrollClick}
+            className="w-full min-w-38 lg:max-w-38 bg-black text-white px-4 py-2 font-bold text-sm rounded cursor-pointer
+                flex items-center justify-center gap-1"
+          >
+            {isScrolled ? t("scrollUp") : t("scrollDown")}
+            <MdKeyboardDoubleArrowDown
+              className={`size-6 animate-bounce ${isScrolled ? "rotate-180 -translate-y-1" : "translate-y-1"}`}
+            />
+          </button>
+        )}
+      </div>
 
-      <select
-        onChange={(e) => setSelectedSizeId(Number(e.target.value))}
-        className="border rounded text-center p-1 bg-transparent outline-none"
-        style={{ color: mainColor, borderColor: mainColor }}
-      >
-        {sizes.map((size) => (
-          <option className="text-black!" key={size.id} value={size.id}>
-            {size.weight} {size.weight_unit}
-          </option>
-        ))}
-      </select>
+      <div className="flex items-center justify-center">
+        <select
+          onChange={(e) => setSelectedSizeId(Number(e.target.value))}
+          className="border rounded text-center p-1 bg-transparent outline-none w-full lg:w-fit"
+          style={{ color: mainColor, borderColor: mainColor }}
+        >
+          {sizes.map((size) => (
+            <option className="text-black!" key={size.id} value={size.id}>
+              {size.weight} {size.weight_unit}
+            </option>
+          ))}
+        </select>
+      </div>
 
-      <div className="flex gap-2">
+      <div className="flex justify-end gap-2">
         <div
           className="flex items-center border rounded min-w-20"
           style={{ color: mainColor, borderColor: mainColor }}
@@ -135,7 +146,7 @@ const ProductControls = ({ product, mainColor, sale_type }) => {
         </div>
 
         <button
-          className="flex-1 md:flex-initial bg-black text-white px-4 py-2 font-bold text-sm rounded cursor-pointer
+          className="flex-1 lg:flex-initial bg-black text-white px-4 py-2 font-bold text-sm rounded cursor-pointer
                     flex items-center justify-center gap-1"
           onClick={handleAddToCart}
           disabled={isPendingCart}

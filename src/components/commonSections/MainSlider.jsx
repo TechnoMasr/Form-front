@@ -13,9 +13,9 @@ const MainSlider = ({
     0: { slidesPerView: 1 },
     480: { slidesPerView: 1.3 },
     570: { slidesPerView: 1.6 },
-    640: { slidesPerView: 2 },
-    720: { slidesPerView: 2.5 },
-    960: { slidesPerView: 3 },
+    768: { slidesPerView: 2 },
+    992: { slidesPerView: 2.5 },
+    1200: { slidesPerView: 3 },
   },
   spaceBetween = 24,
   className = "",
@@ -33,7 +33,7 @@ const MainSlider = ({
   const { lang } = useSelector((state) => state.language);
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full main_slider">
       <Swiper
         dir={lang === "ar" ? "rtl" : "ltr"}
         modules={[Autoplay]}
