@@ -285,11 +285,13 @@ const DetailsSection = ({
                               ${activeIndex === i ? "scale-100 opacity-100" : "opacity-40 scale-80"}`}
               >
                 <div className="w-6 h-6 overflow-hidden">
-                  <img
-                    src={item.icon}
-                    alt={item.title}
-                    className="w-full h-full object-cover"
-                  />
+                  {item.icon && (
+                    <img
+                      src={item.icon}
+                      alt={item.title}
+                      className="w-full h-full object-cover"
+                    />
+                  )}
                 </div>
 
                 <h3 className="text-xs font-bold text-center">{item.title}</h3>

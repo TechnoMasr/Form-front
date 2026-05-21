@@ -131,10 +131,9 @@ const Product = () => {
 
     const tl = gsap.timeline({ paused: true });
 
-    if (window.innerWidth >= 1024) {
-      // lg فقط
-      gsap.set(circleRef.current, { width: "120%" });
-    }
+    // if (window.innerWidth >= 1024) {
+    //   gsap.set(circleRef.current, { width: "120%" });
+    // }
 
     tl.to(circleRef.current, {
       height: "100%",
@@ -237,12 +236,12 @@ const Product = () => {
       onLeaveBack: () => {
         tl.reverse();
 
-        if (window.innerWidth >= 1024) {
-          gsap.to(circleRef.current, {
-            width: "120%",
-            duration: 0.8,
-          });
-        }
+        // if (window.innerWidth >= 1024) {
+        //   gsap.to(circleRef.current, {
+        //     width: "120%",
+        //     duration: 0.8,
+        //   });
+        // }
 
         setActiveItem(null); // ✅
         setHoveredItem(null); // ✅
@@ -374,7 +373,7 @@ const Product = () => {
                   {/* 🔵 الدائرة */}
                   <div
                     ref={circleRef}
-                    className="absolute w-[100%] lg:w-[120%] h-[0px] border-2 rounded-[50%] bottom-0 left-1/2 -translate-x-1/2"
+                    className="absolute w-[100%] h-[0px] border-2 rounded-[50%] bottom-0 left-1/2 -translate-x-1/2"
                     style={{ borderColor: mainColor }}
                   ></div>
 
@@ -633,11 +632,13 @@ const Product = () => {
                         ${activeIndex === i ? "scale-100 opacity-100" : "opacity-40 scale-80"}`}
                       >
                         <div className="w-6 h-6 overflow-hidden">
-                          <img
-                            src={item.icon}
-                            alt={item.title}
-                            className="w-full h-full object-cover"
-                          />
+                          {item.icon && (
+                            <img
+                              src={item.icon}
+                              alt={item.title}
+                              className="w-full h-full object-cover"
+                            />
+                          )}
                         </div>
 
                         <h3 className="text-xs font-bold text-center">
