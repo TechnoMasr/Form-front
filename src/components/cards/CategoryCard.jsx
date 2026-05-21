@@ -4,33 +4,33 @@ import { Link } from "react-router";
 const CategoryCard = ({ category }) => {
   const { t } = useTranslation();
 
-  const isVideo = (url) => {
-    return /\.(mp4|webm|ogg)$/i.test(url);
-  };
+  const hasVideo = Boolean(category.video);
+  const hasImage = Boolean(category.image);
 
   return (
     <div
       key={category.id}
       className="relative w-full h-110 lg:h-120 rounded-3xl overflow-hidden group cursor-pointer"
     >
-      {/* Image بدل background */}
-      {category.image &&
-        (isVideo(category.image) ? (
-          <video
-            src={category.image}
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-        ) : (
-          <img
-            src={category.image}
-            alt={category.name}
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-        ))}
+      {/* Media */}
+      {hasVideo ? (
+        <video
+          src={category.video}
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+      ) : hasImage ? (
+        <img
+          src={category.image}
+          alt={category.name}
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+      ) : (
+        <div className="absolute inset-0 bg-gray-200" />
+      )}
 
       {/* Overlay */}
       <div
