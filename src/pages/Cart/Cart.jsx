@@ -13,10 +13,14 @@ import { useTranslation } from "react-i18next";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useRef } from "react";
 
 const Cart = () => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
+
+  const locationRef = useRef(null);
+  const homeNumRef = useRef(null);
 
   // ✅ schema
   const schema = z.object({
@@ -39,6 +43,20 @@ const Cart = () => {
       comment: "",
     },
   });
+
+  useEffect(() => {
+    if (errors.location) {
+      locationRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    } else if (errors.home_num) {
+      homeNumRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
+  }, [errors]);
 
   // ✅ queries
   const { data: cartHero, isLoading: isLoadingHero } = useQuery({
@@ -108,33 +126,35 @@ const Cart = () => {
               {/* 🔥 FORM */}
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                  {/* LOCATION */}
-                  <Controller
-                    name="location"
-                    control={control}
-                    render={({ field }) => (
-                      <MainInput
-                        {...field}
-                        label={t("Cart.locationLabel")}
-                        placeholder={t("Cart.locationPlaceholder")}
-                        error={errors.location?.message}
-                      />
-                    )}
-                  />
+                  <div ref={locationRef}>
+                    <Controller
+                      name="location"
+                      control={control}
+                      render={({ field }) => (
+                        <MainInput
+                          {...field}
+                          label={t("Cart.locationLabel")}
+                          placeholder={t("Cart.locationPlaceholder")}
+                          error={errors.location?.message}
+                        />
+                      )}
+                    />
+                  </div>
 
-                  {/* HOME NUMBER */}
-                  <Controller
-                    name="home_num"
-                    control={control}
-                    render={({ field }) => (
-                      <MainInput
-                        {...field}
-                        label={t("Cart.homeNumLabel")}
-                        placeholder={t("Cart.homeNumPlaceholder")}
-                        error={errors.home_num?.message}
-                      />
-                    )}
-                  />
+                  <div ref={homeNumRef}>
+                    <Controller
+                      name="home_num"
+                      control={control}
+                      render={({ field }) => (
+                        <MainInput
+                          {...field}
+                          label={t("Cart.homeNumLabel")}
+                          placeholder={t("Cart.homeNumPlaceholder")}
+                          error={errors.home_num?.message}
+                        />
+                      )}
+                    />
+                  </div>
                 </div>
 
                 {/* COMMENT (OPTIONAL) */}
